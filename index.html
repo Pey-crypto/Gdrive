@@ -71,6 +71,7 @@
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
           listFiles();
+        
         } else {
           authorizeButton.style.display = 'block';
           signoutButton.style.display = 'none';
@@ -99,7 +100,7 @@
        */
       function appendPre(message) {
         var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
+        var textContent = document.createTextNode(message + '\n'+'\n');
         pre.appendChild(textContent);
       }
 
@@ -116,15 +117,35 @@
           if (files && files.length > 0) {
             for (var i = 0; i < files.length; i++) {
               var file = files[i];
-              appendPre(file.name + ' (' + file.id + ')');
+              Bgsize(file);   
             }
-            console.log(response)
+
           } else {
             appendPre('No files found.');
           }
         });
       }
+      function formatFileSize(bytes,decimalPoint) {
+        if(bytes == 0) return '0 Bytes';
+        var k = 1000,
+        dm = decimalPoint || 2,
+        sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+      }
 
+      function Bgsize(file){
+        var desp = file.id
+        gapi.client.drive.files.get({
+          'fileId': desp,
+          'fields': "name, id, size, fullFileExtension, modifiedTime "
+        }).then(function(response){
+          appendPre(response.result.name + ' ' + response.result.id + ' ' + response.result.fullFileExtension + ' ' + formatFileSize(response.result.size)+ ' '+ response.result.modifiedTime  )
+        }, function(err){
+
+        });
+      }
+    
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"
