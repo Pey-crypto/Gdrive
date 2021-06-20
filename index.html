@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Drive API Quickstart</title>
+    <title>Drie</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css"/>
   </head>
   <body>
-    <p>Drive API Quickstart</p>
+    <p>Drie</p>
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" style="display: none;">Authorize</button>
     <button id="signout_button" style="display: none;">Sign Out</button>
 
-    <pre id="content" style="white-space: pre-wrap;"></pre>
+    <pre id="content" style="white-space: pre-wrap;" ></pre>
     <script src="js/run.js"></script>
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
@@ -101,7 +102,11 @@
       function appendPre(message) {
         var pre = document.getElementById('content');
         var textContent = document.createTextNode(message + '\n'+'\n');
+        var chk = document.createElement("INPUT");
+        chk.setAttribute("type", "checkbox")
         pre.appendChild(textContent);
+        pre.appendChild(chk);
+      
       }
 
       /**
